@@ -1,4 +1,4 @@
-let myName: string = "slash"
+// let myName: string = "slash"
 
 
 let numberOfWheels: number = 4
