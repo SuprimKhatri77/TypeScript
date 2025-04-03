@@ -1,7 +1,7 @@
 import { error } from "console"
 
 type Pizza = {
-    id: number
+    id?: number
     name: string
     price: number
 }
@@ -9,44 +9,53 @@ type Pizza = {
 type status = "ordered" | "completed" 
 
 type Order = {
-        id: number
-        pizza: Pizza
-        status: status
+    id: number
+    pizza: Pizza
+    status: status
 }
 
+let cashInRegister = 100
+let nextOrderId = 1
+const orderQueue: Order[] = []
+let nextPizzaId = 1
 
 const menu: Pizza[] = [
     {
-        id: 1,
+        id: nextPizzaId++,
         name: "Margheritta",
         price: 8
     },
     {
-        id:2,
+        id: nextPizzaId++,
         name: "Pepperoni",
         price: 10
     },
     {
-        id:3,
+        id: nextPizzaId++,
         name: "Hawaiian",
         price: 10
     },
     {
-        id:4,
+        id: nextPizzaId++,
         name: "Veggie",
         price: 9
     },
 ]
 
 
-let cashInRegister = 100
-let nextOrderId = 1
-const orderQueue: Order[] = []
 
 
-function addNewPizaa(pizzaObj: Pizza) : void{
+function addNewPizaa(pizzaObj: Omit<Pizza, "id">) : Pizza{
+    const newPizza: Pizza = {
+        id: nextPizzaId++,
+        ...pizzaObj
+    }
     menu.push(pizzaObj)
+    return newPizza
 }
+
+
+
 
 function placeOrder(pizzaName: string) : Order | undefined{
     const selectedPizza =  menu.find((pizzaObj)=> pizzaObj.name === pizzaName)
@@ -86,17 +95,17 @@ console.log(getPizzaDetail("Pepperoni"))
 // console.log(getPizzaDetail("Non existent pizza"))
 
 
-// addNewPizaa({id:5, name:"Chicken Pizza", price: 22})
-// addNewPizaa({id:6, name:"BBQ Chicken", price: 12})
-// addNewPizaa({id:7, name:"Spicy sausage", price: 11})
+addNewPizaa({name:"Chicken Pizza", price: 22})
+addNewPizaa({name:"BBQ Chicken", price: 12})
+addNewPizaa({name:"Spicy sausage", price: 11})
 
 
-// placeOrder("Chicken Pizza")
-// completeOrder(1)
+placeOrder("Chicken Pizza")
+completeOrder(1)
 
 
-// console.log("Menu: ", menu);
-// console.log("Cash in register: ", cashInRegister)
-// console.log("Order queue: ", orderQueue);
+console.log("Menu: ", menu);
+console.log("Cash in register: ", cashInRegister)
+console.log("Order queue: ", orderQueue);
 
 
